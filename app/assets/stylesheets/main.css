@@ -1,0 +1,160 @@
+/* Basic Style */
+body {
+  background: #fff;
+  color: #333;
+  font-family: Lato, sans-serif;
+}
+.container {
+  display: block;
+  width: 500px;
+  padding: 0 20px;
+  margin: 50px auto 0;
+  background-color: #f4f7f8;
+  border-radius: 20px;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+li * {
+  float: left;
+}
+li, h3 {
+  clear:both;
+  list-style:none;
+}
+input, button {
+  outline: none;
+}
+button {
+  background: none;
+  border: 0px;
+  color: #888;
+  font-size: 15px;
+  width: 50px;
+  margin: 10px 0 0;
+  font-family: Lato, sans-serif;
+  cursor: pointer;
+}
+button:hover {
+  color: #333;
+}
+/* Heading */
+h3 {
+  color: #333;
+  font-weight: 700;
+  font-size: 15px;
+  border-bottom: 2px solid #333;
+  padding: 30px 0 10px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/*Inputfields*/
+input[type="text"], input[type="datetime-local"] {
+  margin: 0;
+  font-size: 18px;
+  line-height: 18px;
+  height: 18px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 6px;
+  font-family: Lato, sans-serif;
+  color: #888;
+}
+input[type="text"]:focus {
+  color: #333;
+}
+
+/* New Task */
+
+input.eventInput{
+  float: left;
+  width: 418px;
+}
+p > button:hover {
+  color: #0FC57C;
+}
+
+/* Running and completed counter list */
+li {
+  overflow: hidden;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+li > label {
+  font-size: 18px;
+  line-height: 40px;
+  padding: 0 10px;
+}
+
+.eventLabel {
+	width: 360px;
+}
+
+.counterLabel{
+	font-size: 0.9em;
+	margin-top: -5px;
+	clear: left;
+}
+
+li >  input[type="text"] {
+  width: 360px;
+}
+
+li > .delete:hover {
+  color: #CF2323;
+}
+
+/* Completed */
+#completed-countdowns label {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Edit Task */
+ul li input[type=text], ul li input[type="datetime-local"] {
+  display:none;
+}
+
+ul li.editMode input[type=text], ul li.editMode input[type="datetime-local"] {
+  display:block;
+}
+
+ul li.editMode label{
+  display:none;
+}
+
+/*Sticky footer*/
+*{
+	margin: 0;
+}
+
+html, body{
+	height: 100%;
+}
+
+.page-wrap{
+	padding:1px;
+	min-height: 100%;
+	margin-bottom: -100px;
+}
+
+.page-wrap:after{
+	content: "";
+	display: block;
+}
+
+footer, .page-wrap:after{
+	height: 100px;
+}
+
+footer{
+	padding: 50px;
+	font-size: 0.8em;
+	text-align: center;
+}
+.page-wrap, footer{
+	box-sizing: border-box;
+}
