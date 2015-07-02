@@ -1,6 +1,6 @@
 class HappeningsController < ApplicationController
     def index
-        setTimeZone
+        #setTimeZone
         @happenings = Happening.all
     end
 
@@ -13,5 +13,15 @@ class HappeningsController < ApplicationController
     #Use Javascript on the front end to figure out the correct time to display, based on the user's browser
     def setTimeZone
         @localTime = params[:time]
+    end
+
+    def save
+        flash[:notice] = "saved"
+        puts params[:happening_name]
+        puts params.count
+        @time = params[:happening_time]
+        puts @name
+        puts @time
+        redirect_to root_path
     end
 end
