@@ -1,8 +1,10 @@
 <div class="container">
   <p>
   <h3>New Countdown</h3>
-  <input id="new-counter" class="eventInput" type="text"><button class="addButton">Add</button>
-    <input type="datetime-local" id="new-date">
+  <form method="post" action="/happenings/save">
+      <input id="new-counter" class="eventInput" type="text"><button class="addButton">Add</button>
+      <input type="datetime-local" id="new-date">
+  </form>
   </p>
   
   <h3>Running countdowns</h3>
