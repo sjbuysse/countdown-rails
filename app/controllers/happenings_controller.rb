@@ -15,13 +15,12 @@ class HappeningsController < ApplicationController
         @localTime = params[:time]
     end
 
+    #Save the happening data in the database
     def save
         flash[:notice] = "saved"
-        puts params[:happening_name]
-        puts params.count
-        @time = params[:happening_time]
-        puts @name
-        puts @time
+        @name = params[:happening_name]
+        @time = params[:happening_time].to_datetime
+        Happening.create(name: @name, date: @time)
         redirect_to root_path
     end
 end
