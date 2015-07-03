@@ -63,6 +63,8 @@ class HappeningsController < ApplicationController
             end
         end
 
+        completedHappenings.sort_by! {|hsh| hsh[:date]}
+        incompleteHappenings.sort_by! {|hsh| hsh[:date]}
         return completedHappenings, incompleteHappenings
     end
 end
