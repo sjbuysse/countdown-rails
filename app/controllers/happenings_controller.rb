@@ -1,17 +1,25 @@
 class HappeningsController < ApplicationController
     def index
-        #setTimeZone
-        now = DateTime.now()
         happenings = Happening.all
-        @happeningsAndDifference = {} 
+        #Make an array filled with the hashes of happening names,there dates and the time differences
+        #This hash will be used to make our view
+        @completed, @incomplete = getCounterArrays(happenings)
+    end
+
+    def getCounterArrays(happenings)
+        completedHappenings = [] 
+        incompleteHappenings = []
         happenings.each do |happening|
-            timeDifference = getTimeDifference(now, happening.date)
-            @happeningsAndDifference[happening.name] = timeDifference
+            #getTimeDifference returns a string that either says "completed" or the countdown
+            timeDifference = getTimeDifference(happening.date)
+            if timeDifference == "completed"
+                completedHappenings << {name: happening.name, date: happening.date, difference: timeDifference}
+            else
+                incompleteHappenings << {name: happening.name, date: happening.date, difference: timeDifference}
+            end
         end
-        @happeningsAndDifference.each do |key,value|
-            puts key
-            puts value
-        end
+
+        return completedHappenings, incompleteHappenings
     end
 
     ##Use Javascript on the front end to figure out the correct time to display, based on the user's browser
@@ -31,7 +39,8 @@ class HappeningsController < ApplicationController
 
     ##This method calculated the difference in between the Happening date and the current date
     ##It will return a string that either says the difference in between those dates or "completed" 
-    def getTimeDifference(now, date)
+    def getTimeDifference(date)
+        now = DateTime.now()
         differenceInSeconds = date.to_time - now.to_time
         if differenceInSeconds > 0
             seconds = (differenceInSeconds % 60).floor
