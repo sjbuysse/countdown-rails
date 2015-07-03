@@ -1,7 +1,32 @@
 class HappeningsController < ApplicationController
     def index
         #setTimeZone
-        @happenings = Happening.all
+        now = DateTime.now()
+        happenings = Happening.all
+        @happeningsAndDifference = {} 
+        happenings.each do |happening|
+            timeDifference = getTimeDifference(now, happening.date)
+            @happeningsAndDifference[happening.name] = timeDifference
+        end
+        @happeningsAndDifference.each do |key,value|
+            puts key
+            puts value
+        end
+    end
+
+    ##Use Javascript on the front end to figure out the correct time to display, based on the user's browser
+    def setTimeZone
+        @localTime = params[:time]
+    end
+
+    #Save the happening data in the database
+    def save
+        flash[:notice] = "saved"
+        flash.keep
+        @name = params[:happening_name]
+        @time = params[:happening_time].to_datetime
+        Happening.create(name: @name, date: @time)
+        redirect_to root_path
     end
 
     ##This method calculated the difference in between the Happening date and the current date
@@ -30,20 +55,5 @@ class HappeningsController < ApplicationController
         elsif minutes > 0
             return "#{minutes} m"
         end 
-    end
-
-    ##Use Javascript on the front end to figure out the correct time to display, based on the user's browser
-    def setTimeZone
-        @localTime = params[:time]
-    end
-
-    #Save the happening data in the database
-    def save
-        flash[:notice] = "saved"
-        flash.keep
-        @name = params[:happening_name]
-        @time = params[:happening_time].to_datetime
-        #Happening.create(name: @name, date: @time)
-        redirect_to root_path
     end
 end
