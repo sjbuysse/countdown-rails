@@ -6,22 +6,6 @@ class HappeningsController < ApplicationController
         @completed, @incomplete = getCounterArrays(happenings)
     end
 
-    def getCounterArrays(happenings)
-        completedHappenings = [] 
-        incompleteHappenings = []
-        happenings.each do |happening|
-            #getTimeDifference returns a string that either says "completed" or the countdown
-            timeDifference = getTimeDifference(happening.date)
-            if timeDifference == "completed"
-                completedHappenings << {name: happening.name, date: happening.date, difference: timeDifference}
-            else
-                incompleteHappenings << {name: happening.name, date: happening.date, difference: timeDifference}
-            end
-        end
-
-        return completedHappenings, incompleteHappenings
-    end
-
     ##Use Javascript on the front end to figure out the correct time to display, based on the user's browser
     def setTimeZone
         @localTime = params[:time]
@@ -64,5 +48,21 @@ class HappeningsController < ApplicationController
         elsif minutes > 0
             return "#{minutes} m"
         end 
+    end
+
+    def getCounterArrays(happenings)
+        completedHappenings = [] 
+        incompleteHappenings = []
+        happenings.each do |happening|
+            #getTimeDifference returns a string that either says "completed" or the countdown
+            timeDifference = getTimeDifference(happening.date)
+            if timeDifference == "completed"
+                completedHappenings << {name: happening.name, date: happening.date, difference: timeDifference}
+            else
+                incompleteHappenings << {name: happening.name, date: happening.date, difference: timeDifference}
+            end
+        end
+
+        return completedHappenings, incompleteHappenings
     end
 end
