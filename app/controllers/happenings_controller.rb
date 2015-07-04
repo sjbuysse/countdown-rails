@@ -21,6 +21,10 @@ class HappeningsController < ApplicationController
         redirect_to root_path
     end
 
+    def update
+        
+    end
+
     ##This method calculated the difference in between the Happening date and the current date
     ##It will return a string that either says the difference in between those dates or "completed" 
     def getTimeDifference(date)
@@ -57,9 +61,9 @@ class HappeningsController < ApplicationController
             #getTimeDifference returns a string that either says "completed" or the countdown
             timeDifference = getTimeDifference(happening.date)
             if timeDifference == "completed"
-                completedHappenings << {name: happening.name, date: happening.date, difference: timeDifference}
+                completedHappenings << {name: happening.name, date: happening.date, difference: timeDifference, id: happening.id}
             else
-                incompleteHappenings << {name: happening.name, date: happening.date, difference: timeDifference}
+                incompleteHappenings << {name: happening.name, date: happening.date, difference: timeDifference, id: happening.id}
             end
         end
 

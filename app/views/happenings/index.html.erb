@@ -15,7 +15,7 @@
     <%#<button class="editButton">Edit</button><button class="deleteButton">Delete</button>%>
     <%#<label class="counterLabel">21d, 17h, 35min</label><input type="datetime-local" value="2015-12-19T16:39"></li>%>
     <% @incomplete.each do |happening| %>
-         <li><label class="eventLabel"><%= happening[:name]%></label><input class="eventInput" type="text">
+        <li id = "<%=happening[:id].to_s%>"><label class="eventLabel"><%= happening[:name]%></label><input class="eventInput" type="text">
         <button class="editButton">Edit</button><button class="deleteButton">Delete</button>
         <label class="counterLabel"><%= happening[:difference] %></label>
         <input type="datetime-local" value=<%= happening[:date].to_s %>></li>   
@@ -25,7 +25,7 @@
   <h3>Completed countdowns</h3>
   <ul id="completed-countdowns">
     <% @completed.each do |happening| %>
-         <li><label class="eventLabel"><%= happening[:name]%></label><input class="eventInput" type="text">
+         <li id ="<%= happening[:id].to_s %>"><label class="eventLabel"><%= happening[:name]%></label><input class="eventInput" type="text">
         <button class="editButton">Edit</button><button class="deleteButton">Delete</button>
         <label class="counterLabel"><%= happening[:difference] %></label>
         <input type="datetime-local" value=<%= happening[:date].to_s %>></li>   

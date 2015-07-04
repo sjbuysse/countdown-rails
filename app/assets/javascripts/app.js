@@ -17,19 +17,19 @@ $(document).ready(function(){
     }
 
     //when click on add
-    $(".addButton").click(function(){
-        var newListItem = getNewListItem($(this));
-        if(!newListItem){		
-        }else if(newListItem.children('label.counterLabel').html() == "Completed"){				
-            $("#completed-countdowns").append(newListItem);
-            $("#new-counter").val("");
-            $("#new-date").val("");
-        }else {
-            $("#running-countdowns").append(newListItem);
-            $("#new-counter").val("");
-            $("#new-date").val("");
-        }
-    });
+    //$(".addButton").click(function(){
+        //var newListItem = getNewListItem($(this));
+        //if(!newListItem){		
+        //}else if(newListItem.children('label.counterLabel').html() == "Completed"){				
+            //$("#completed-countdowns").append(newListItem);
+            //$("#new-counter").val("");
+            //$("#new-date").val("");
+        //}else {
+            //$("#running-countdowns").append(newListItem);
+            //$("#new-counter").val("");
+            //$("#new-date").val("");
+        //}
+    //});
 
     //When click on edit in running countdowns section
         //If the class is in editMode (do you want to save edits)
@@ -42,44 +42,19 @@ $(document).ready(function(){
         var listItem = $(this).parent();
         var eventInput = listItem.children("input.eventInput");
         var eventLabel = listItem.children("label.eventLabel");
-        var eventDate = listItem.children("input[type='datetime-local']")
+        var eventDate = listItem.children("input[type='datetime-local']");
+        var eventID = parseInt(listItem.attr(id));
         if(listItem.hasClass("editMode")){ //it was in editMode when button clicked
-            var newListItem = getNewListItem($(this));
-            if(!newListItem){			
-            }else if (newListItem.children('label.counterLabel').html() == "Completed"){
-                //add counter to completed countdowns list & remove it from the running countdowns list
-                listItem.remove();
-                $("#completed-countdowns").append(newListItem);
-            }else { //(countDown != "Completed")
-                //add counter to completed countdowns list & remove it from the running countdowns list
-                listItem.remove();
-                $("#running-countdowns").append(newListItem);			
-            }			
-        } else{ //it wasn't in editMode when button clicked
-            eventInput.val(eventLabel.html());
-            $(this).html("Save");		
-            listItem.toggleClass("editMode");
-        }	
-    });
-
-    //when clicking on edit button in the completed countdowns section
-    $("#completed-countdowns").on("click", ".editButton", function(){
-        var listItem = $(this).parent();
-        var eventInput = listItem.children("input.eventInput");
-        var eventLabel = listItem.children("label.eventLabel");
-        var eventDate = listItem.children("input[type='datetime-local']")
-        if(listItem.hasClass("editMode")){ //it was in editMode when button clicked
-            var newListItem = getNewListItem($(this));
-            if(!newListItem){			
-            }else if (newListItem.children('label.counterLabel').html() != "Completed"){
-                //add counter to completed countdowns list & remove it from the running countdowns list
-                listItem.remove();
-                $("#running-countdowns").append(newListItem);
-            }else { //(countDown == "Completed")
-                //add counter to completed countdowns list & remove it from the running countdowns list
-                listItem.remove();
-                $("#completed-countdowns").append(newListItem);			
-            }			
+            //check if name and date are filled in and color red otherwise.
+            var checkName = checkEventInput(eventInput);
+            var checkDate = checkEventInput(eventDate);
+            if(checkName && checkDate) {
+                //update the database (call ajax post function)
+                updateListItem(eventID, eventInput.val, eventDate);
+                //update label accordingly                
+            } else {
+                console.log("false");
+            }  
         } else{ //it wasn't in editMode when button clicked
             eventInput.val(eventLabel.html());
             $(this).html("Save");		
@@ -91,6 +66,15 @@ $(document).ready(function(){
     $(".container").on("click", ".deleteButton",function(){
         $(this).parent().remove();
     });
+
+    function updateListItem(eventID, eventInputString, eventDate){
+        var updateData = {name: eventInputString, date: eventDate};
+        $.post(
+                url: "/happenings/update", 
+                data: updateData
+              );
+            	
+    }
 
     //returns false if something is not filled in appropriately, returns listItem if all is good.
     function getNewListItem($caller){
@@ -169,4 +153,31 @@ $(document).ready(function(){
             return minutes + ' min';
         }
     }
+        //when clicking on edit button in the completed countdowns section
+    $("#completed-countdowns").on("click", ".editButton", function(){
+        var listItem = $(this).parent();
+        var eventInput = listItem.children("input.eventInput");
+        var eventLabel = listItem.children("label.eventLabel");
+        var eventDate = listItem.children("input[type='datetime-local']")
+        if(listItem.hasClass("editMode")){ //it was in editMode when button clicked
+            var newListItem = getNewListItem($(this));
+            if(!newListItem){			
+            }else if (newListItem.children('label.counterLabel').html() != "Completed"){
+                //add counter to completed countdowns list & remove it from the running countdowns list
+                listItem.remove();
+                $("#running-countdowns").append(newListItem);
+            }else { //(countDown == "Completed")
+                //add counter to completed countdowns list & remove it from the running countdowns list
+                listItem.remove();
+                $("#completed-countdowns").append(newListItem);			
+            }			
+        } else{ //it wasn't in editMode when button clicked
+            eventInput.val(eventLabel.html());
+            $(this).html("Save");		
+            listItem.toggleClass("editMode");
+        }	
+    });
+
+
 })
+
