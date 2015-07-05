@@ -2,7 +2,7 @@
   <p>
   <%= flash[:notice] %>
   <h3>New Countdown</h3>
-  <form method="post" action="/happenings/save">
+  <form method="post" action="/happenings/create">
       <input id="new-counter" class="eventInput" type="text" name="happening_name">
       <button type="submit" class="addButton">Add</button>
       <input type="datetime-local" id="new-date" name="happening_time">

@@ -12,7 +12,7 @@ class HappeningsController < ApplicationController
     end
 
     #Save the happening data in the database
-    def save
+    def create
         flash[:notice] = "saved"
         flash.keep
         @name = params[:happening_name]
@@ -29,7 +29,7 @@ class HappeningsController < ApplicationController
         completedHappenings = [] 
         incompleteHappenings = []
         happenings.each do |happening|
-            #getTimeDifference returns a string that either says "completed" or the countdown
+            #getCountdownString returns a string that either says "completed" or the countdown
             countdownString = getCountdownString(happening)
             if countdownString == "completed"
                 completedHappenings << {name: happening.name, date: happening.date, countdown: countdownString, id: happening.id}
@@ -46,6 +46,7 @@ class HappeningsController < ApplicationController
     ##This method calculated the difference in between the Happening date and the current date
     ##It will return a string that either says the difference in between those dates or "completed" 
     def getCountdownString(happening)
+        #happening.secondsFromNow is a Model method that returns the countdown in seconds
         differenceInSeconds = happening.secondsFromNow
         if differenceInSeconds > 0
             seconds = (differenceInSeconds % 60).floor
