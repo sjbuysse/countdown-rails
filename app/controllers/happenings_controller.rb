@@ -1,8 +1,8 @@
 class HappeningsController < ApplicationController
     def index
         happenings = Happening.all
-        #Make an array filled with the hashes of happening names,there dates and the time differences
-        #This hash will be used to make our view
+        #make an array filled with the hashes of happening names,there dates and the time differences
+        #this hash will be used to make our view
         @completed, @incomplete = getCounterArrays(happenings)
     end
 
@@ -25,11 +25,28 @@ class HappeningsController < ApplicationController
         
     end
 
+    def getCounterArrays(happenings)
+        completedHappenings = [] 
+        incompleteHappenings = []
+        happenings.each do |happening|
+            #getTimeDifference returns a string that either says "completed" or the countdown
+            countdownString = getCountdownString(happening)
+            if countdownString == "completed"
+                completedHappenings << {name: happening.name, date: happening.date, countdown: countdownString, id: happening.id}
+            else
+                incompleteHappenings << {name: happening.name, date: happening.date, countdown: countdownString, id: happening.id}
+            end
+        end
+
+        completedHappenings.sort_by! {|hsh| hsh[:date]}
+        incompleteHappenings.sort_by! {|hsh| hsh[:date]}
+        return completedHappenings, incompleteHappenings
+    end
+    
     ##This method calculated the difference in between the Happening date and the current date
     ##It will return a string that either says the difference in between those dates or "completed" 
-    def getTimeDifference(date)
-        now = DateTime.now()
-        differenceInSeconds = date.to_time - now.to_time
+    def getCountdownString(happening)
+        differenceInSeconds = happening.secondsFromNow
         if differenceInSeconds > 0
             seconds = (differenceInSeconds % 60).floor
             differenceInMinutes = differenceInSeconds/60
@@ -54,21 +71,6 @@ class HappeningsController < ApplicationController
         end 
     end
 
-    def getCounterArrays(happenings)
-        completedHappenings = [] 
-        incompleteHappenings = []
-        happenings.each do |happening|
-            #getTimeDifference returns a string that either says "completed" or the countdown
-            timeDifference = getTimeDifference(happening.date)
-            if timeDifference == "completed"
-                completedHappenings << {name: happening.name, date: happening.date, difference: timeDifference, id: happening.id}
-            else
-                incompleteHappenings << {name: happening.name, date: happening.date, difference: timeDifference, id: happening.id}
-            end
-        end
 
-        completedHappenings.sort_by! {|hsh| hsh[:date]}
-        incompleteHappenings.sort_by! {|hsh| hsh[:date]}
-        return completedHappenings, incompleteHappenings
-    end
+
 end
