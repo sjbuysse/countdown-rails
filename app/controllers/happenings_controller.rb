@@ -1,9 +1,6 @@
 class HappeningsController < ApplicationController
     def index
-        happenings = Happening.all
-        #make an array filled with the hashes of happening names,there dates and the time differences
-        #this hash will be used to make our view
-        @completed, @incomplete = getCounterArrays(happenings)
+        @happenings = Happening.all
     end
 
     ##Use Javascript on the front end to figure out the correct time to display, based on the user's browser
@@ -21,57 +18,12 @@ class HappeningsController < ApplicationController
         redirect_to root_path
     end
 
+    def edit
+
+    end
+
     def update
         
     end
 
-    def getCounterArrays(happenings)
-        completedHappenings = [] 
-        incompleteHappenings = []
-        happenings.each do |happening|
-            #getCountdownString returns a string that either says "completed" or the countdown
-            countdownString = getCountdownString(happening)
-            if countdownString == "completed"
-                completedHappenings << {name: happening.name, date: happening.date, countdown: countdownString, id: happening.id}
-            else
-                incompleteHappenings << {name: happening.name, date: happening.date, countdown: countdownString, id: happening.id}
-            end
-        end
-
-        completedHappenings.sort_by! {|hsh| hsh[:date]}
-        incompleteHappenings.sort_by! {|hsh| hsh[:date]}
-        return completedHappenings, incompleteHappenings
     end
-    
-    ##This method calculated the difference in between the Happening date and the current date
-    ##It will return a string that either says the difference in between those dates or "completed" 
-    def getCountdownString(happening)
-        #happening.secondsFromNow is a Model method that returns the countdown in seconds
-        differenceInSeconds = happening.secondsFromNow
-        if differenceInSeconds > 0
-            seconds = (differenceInSeconds % 60).floor
-            differenceInMinutes = differenceInSeconds/60
-            minutes = (differenceInMinutes % 60).floor
-            differenceInHours = differenceInMinutes/60
-            hours = (differenceInHours % 24).floor
-            days = (differenceInHours/24).floor
-            countdownString = makeCountdownString(days, hours, minutes)
-        else
-            countdownString = "completed"
-        end
-        return countdownString
-    end
-
-    def makeCountdownString(days, hours, minutes)
-        if days > 0
-            return "#{days} d, #{hours} h, #{minutes} m"
-        elsif hours > 0
-            return "#{hours} h, #{minutes} m"
-        elsif minutes > 0
-            return "#{minutes} m"
-        end 
-    end
-
-
-
-end
