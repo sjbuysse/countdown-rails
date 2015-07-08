@@ -4,6 +4,7 @@ body {
   color: #333;
   font-family: Lato, sans-serif;
 }
+
 .container {
   display: block;
   width: 500px;
@@ -12,21 +13,31 @@ body {
   background-color: #f4f7f8;
   border-radius: 20px;
 }
+
 ul {
   margin: 0;
   padding: 0;
 }
+
 li * {
   float: left;
 }
+
 li, h3 {
   clear:both;
   list-style:none;
 }
+
 input, button {
   outline: none;
 }
-button {
+
+form.update{
+    display:inline-block;
+    width: 432px;
+    
+}
+button, input.editButton, .deleteButton {
   background: none;
   border: 0px;
   color: #888;
@@ -35,9 +46,6 @@ button {
   margin: 10px 0 0;
   font-family: Lato, sans-serif;
   cursor: pointer;
-}
-button:hover {
-  color: #333;
 }
 /* Heading */
 h3 {
@@ -73,7 +81,7 @@ input.eventInput{
   float: left;
   width: 418px;
 }
-p > button:hover {
+.addButton:hover {
   color: #0FC57C;
 }
 
@@ -83,6 +91,7 @@ li {
   padding: 5px 0;
   border-bottom: 1px solid #eee;
 }
+
 li > label {
   font-size: 18px;
   line-height: 40px;
@@ -99,27 +108,22 @@ li > label {
 	clear: left;
 }
 
-li >  input[type="text"] {
+.updateInput{
   width: 360px;
 }
 
-li > .delete:hover {
+.deleteButton:hover {
   color: #CF2323;
+}
+
+.editButton:hover {
+  color: #333;
 }
 
 /* Completed */
 #completed-countdowns label {
   text-decoration: line-through;
   color: #888;
-}
-
-/* Edit Task */
-ul li input[type=text], ul li input[type="datetime-local"] {
-  display:none;
-}
-
-ul li.editMode input[type=text], ul li.editMode input[type="datetime-local"] {
-  display:block;
 }
 
 ul li.editMode label{

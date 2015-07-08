@@ -1,0 +1,8 @@
+<li>
+<%=form_for(happening, :html => {:class => 'update'}) do |f|%>
+    <%=f.text_field :name, class:"updateInput" %>
+    <%=f.submit "Save", class:"editButton" %>
+    <%=f.datetime_local_field :date %>
+<%end%>
+<%= button_to "Delete", happening, method: :delete, class:"deleteButton"%>
+</li>   

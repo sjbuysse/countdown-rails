@@ -1,0 +1,5 @@
+<li><label class="eventLabel"><%= happening.name%></label>
+<%= button_to "Edit", edit_happening_path(happening), method: :get, class:"editButton"%>
+<%= button_to "Delete", happening, method: :delete, class:"deleteButton"%>
+<label class="counterLabel"><%= happening.get_countdown_string %></label>
+

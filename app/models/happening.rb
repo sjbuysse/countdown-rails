@@ -2,6 +2,8 @@ class Happening < ActiveRecord::Base
     validates :name, presence:true, uniqueness:true
     validates :date, presence:true
 
+    default_scope {order("date ASC")}
+
     def get_countdown_string
         @differenceInSeconds = date.to_time - DateTime.now().to_time
         if @differenceInSeconds > 0
@@ -30,6 +32,10 @@ class Happening < ActiveRecord::Base
     def get_days
         differenceInHours = @differenceInSeconds/60/60
         return days = (differenceInHours / 24).floor
+    end
+
+    def get_html_date 
+        date.frmt_YY_mm_dd_HH_MM('--T:', true)
     end
 
 end

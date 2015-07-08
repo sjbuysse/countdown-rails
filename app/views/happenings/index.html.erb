@@ -1,30 +1,9 @@
-<p>
-<%= flash[:notice] %>
-<h3>New Countdown</h3>
-<form method="post" action="/happenings">
-  <input id="new-counter" class="eventInput" type="text" name="happening_name">
-  <button type="submit" class="addButton">Add</button>
-  <input type="datetime-local" id="new-date" name="happening_time">
-</form>
-</p>
-
+<%=render "add"%>
 <h3>Running countdowns</h3>
 <ul id="running-countdowns">
-<%#<li><label class="eventLabel">Event</label><input class="eventInput" type="text">%>
-<%#<button class="editButton">Edit</button><button class="deleteButton">Delete</button>%>
-<%#<label class="counterLabel">21d, 17h, 35min</label><input type="datetime-local" value="2015-12-19T16:39"></li>%>
 <% @happenings.each do |happening| %>
     <% if happening.get_countdown_string != "completed"%>
-        <li><label class="eventLabel"><%= happening.name%></label>
-        <input class="eventInput" type="text">
-        <form method="get" action= "/happenings/<%=happening.id%>/edit">
-            <button class="editButton">Edit</button>
-        </form>
-        <form method="get" action= "/happenings/<%=happening.id%>/destroy">
-            <button class="deleteButton">Delete</button>
-        </form>
-        <label class="counterLabel"><%= happening.get_countdown_string %></label>
-        <input type="datetime-local" value=<%= happening[:date].to_s %>></li>   
+        <%=render "label", happening: happening%>
     <%end%>
 <% end %>
 </ul>
@@ -33,12 +12,8 @@
 <ul id="completed-countdowns">
 <% @happenings.each do |happening| %>
     <% if happening.get_countdown_string == "completed"%>
-        <li><label class="eventLabel"><%= happening.name%></label>
-        <input class="eventInput" type="text">
-        <button class="editButton">Edit</button><button class="deleteButton">Delete</button>
-        <label class="counterLabel"><%= happening.get_countdown_string %></label>
-        <input type="datetime-local" value=<%= happening[:date].to_s %>></li>   
-        <% end %>
+        <%=render "label", happening: happening%>
+    <% end %>
 <% end %>
 </ul>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
